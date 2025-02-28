@@ -2,10 +2,15 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 
+
+
+// Routes
 const adminRoutes = require("./routes/adminRoutes");
 const userRoutes = require("./routes/userRoutes");
 const contactMessagesRoutes = require("./routes/contactMessagesRoutes");
 const donorRoutes = require("./routes/donorRoutes");
+
+
 
 dotenv.config();
 

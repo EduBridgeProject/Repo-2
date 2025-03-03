@@ -235,7 +235,7 @@ exports.getBeneficiaryById = async (req, res) => {
 
     const beneficiary = await Beneficiary.findOne({
       where: { id, isDeleted: false },
-      attributes: ["id", "universityName", "universityNo", "needsDescription","amount"],
+      attributes: ["id", "universityName", "universityNo","amount", "needsDescription"],
     });
 
     if (!beneficiary) {

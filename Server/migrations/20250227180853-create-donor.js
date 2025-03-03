@@ -1,38 +1,42 @@
-"use strict";
+'use strict';
+
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("Donors", {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable('Donors', {
       id: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
+        allowNull: false,
         autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
       },
       userId: {
         type: Sequelize.INTEGER,
         references: {
-          model: "Users",
-          key: "id",
+          model: 'Users', // جدول المستخدمين
+          key: 'id' // المفتاح الخارجي للمستخدم
         },
-        onDelete: "CASCADE",
+        onDelete: 'CASCADE', // إذا تم حذف المستخدم، يتم حذف المتبرع المرتبط
       },
       donationPreferences: {
-        type: Sequelize.TEXT,
+        type: Sequelize.STRING, // تفضيلات التبرع للمستخدم
       },
       totalDonations: {
         type: Sequelize.DECIMAL(15, 2),
-        defaultValue: 0.0,
+        defaultValue: 0.0, // القيمة الافتراضية 0.0 للتبرعات
       },
       createdAt: {
-        type: Sequelize.DATE,
         allowNull: false,
+        type: Sequelize.DATE
       },
       updatedAt: {
-        type: Sequelize.DATE,
         allowNull: false,
-      },
+        type: Sequelize.DATE
+      }
     });
   },
-  down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Donors");
-  },
+
+  async down(queryInterface, Sequelize) {
+    await queryInterface.dropTable('Donors');
+  }
 };

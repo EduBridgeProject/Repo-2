@@ -2,7 +2,7 @@ const express = require("express");
 const {   getUserDonations, getUserTotalDonations,   getUserAverageDonation,  updateDonor,  getDonorProfile, } = require("../controllers/donorController");
     // const { authenticateUser } = require("../middleware/authMiddleware");
     const router = express.Router();
-
+ 
 
 // استرجاع تبرعات المستخدم الحالي
 router.get("/donations/:id", getUserDonations);

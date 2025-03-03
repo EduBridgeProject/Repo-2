@@ -6,7 +6,7 @@ const Sequelize = require('sequelize');
 const process = require('process');
 const { Donation, Donor, User } = require("../models");
 
-
+ 
 // Get the current file name and environment configuration
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';

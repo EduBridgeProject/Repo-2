@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = () => {
+const Navbar = ({ userType }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
         <nav className="bg-white shadow-lg">
             <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-
-                {/* الشعار + الاسم */}
-                <div className="flex items-center space-x-3">
+                
+                {/* اللوجو + اسم الموقع يوجهان إلى الهوم */}
+                <Link to="/" className="flex items-center space-x-3">
                     <img
                         src="src/assets/image.png"
                         alt="شعار أرومة"
                         className="w-20 h-20 object-contain"
                     />
-                    <span className="text-3xl font-bold text-[#940066] tracking-wide"
+                    <span className="hidden md:inline text-3xl font-bold text-[#940066] tracking-wide"
                         style={{
                             fontFamily: "'Tajawal', sans-serif",
                             letterSpacing: "1px",
@@ -23,27 +23,36 @@ const Navbar = () => {
                         }}>
                         أرومة
                     </span>
-                </div>
+                </Link>
 
                 {/* قائمة سطح المكتب */}
                 <div className="hidden md:flex flex-1 justify-center space-x-8">
-                    <Link to="/" className="text-lg font-medium text-[#940066] hover:text-[#b00077] transition-all duration-300">الرئيسية</Link>
-                    <Link to="/about" className="text-lg font-medium text-[#940066] hover:text-[#b00077] transition-all duration-300">من نحن</Link>
-                    <Link to="/SuccessStoriesCards" className="text-lg font-medium text-[#940066] hover:text-[#b00077] transition-all duration-300">قصص نجاح</Link>
-                    <Link to="/contact" className="text-lg font-medium text-[#940066] hover:text-[#b00077] transition-all duration-300">تواصل معنا</Link>
-                    <Link to="/login" className="text-lg font-medium text-[#940066] hover:text-[#b00077] transition-all duration-300">تسجيل الدخول</Link>
-
-                    <Link
-                        to="/donate"
-                        className="text-lg font-medium bg-[#ECECEC] text-[#940066] px-4 py-2 rounded-full shadow-md border border-[#940066] transition-all hover:bg-[#940066] hover:text-white">
-                         فرص التبرع
+                    {/* إبقاء "الرئيسية" ظاهرة فقط على سطح المكتب */}
+                    <Link to="/" className="hidden md:block text-lg font-medium text-[#940066] hover:text-[#b00077] transition-all duration-300">
+                        الرئيسية
                     </Link>
-
-                    <Link
-                        to="/scholarship"
-                        className="text-lg font-medium bg-[#940066] text-[#ECECEC] px-4 py-2 rounded-full shadow-md transition-all hover:bg-[#ECECEC] hover:text-[#940066] hover:border hover:border-[#940066]">
+                    <Link to="/about" className="text-lg font-medium text-[#940066] hover:text-[#b00077] transition-all duration-300">
+                        من نحن
+                    </Link>
+                    <Link to="/SuccessStoriesCards" className="text-lg font-medium text-[#940066] hover:text-[#b00077] transition-all duration-300">
+                        قصص نجاح
+                    </Link>
+                    <Link to="/contact" className="text-lg font-medium text-[#940066] hover:text-[#b00077] transition-all duration-300">
+                        تواصل معنا
+                    </Link>
+                    <Link to="/donate" className="text-lg font-medium bg-[#ECECEC] text-[#940066] px-4 py-2 rounded-full shadow-md border border-[#940066] transition-all hover:bg-[#940066] hover:text-white">
+                        فرص التبرع
+                    </Link>
+                    <Link to="/BeneficiaryForm" className="text-lg font-medium bg-[#940066] text-[#ECECEC] px-4 py-2 rounded-full shadow-md transition-all hover:bg-[#ECECEC] hover:text-[#940066] hover:border hover:border-[#940066]">
                         طلب منحة
                     </Link>
+
+                    {/* إظهار لوحة التحكم للمتبرعين فقط */}
+                    {userType === "donor" && (
+                        <Link to="/donor-dashboard" className="text-lg font-medium text-[#940066] hover:text-[#b00077] transition-all duration-300">
+                            لوحة المتبرعين
+                        </Link>
+                    )}
                 </div>
 
                 {/* زر القائمة للجوال */}
@@ -59,12 +68,16 @@ const Navbar = () => {
             {/* قائمة الجوال */}
             {isOpen && (
                 <div className="md:hidden bg-white text-[#940066] p-4 space-y-4 shadow-lg rounded-b-lg">
-                    <Link to="/" className="text-lg block hover:text-[#b00077] transition-all duration-300">الرئيسية</Link>
                     <Link to="/about" className="text-lg block hover:text-[#b00077] transition-all duration-300">من نحن</Link>
-                    <Link to="/success" className="text-lg block hover:text-[#b00077] transition-all duration-300">قصص نجاح</Link>
+                    <Link to="/SuccessStoriesCards" className="text-lg block hover:text-[#b00077] transition-all duration-300">قصص نجاح</Link>
                     <Link to="/contact" className="text-lg block hover:text-[#b00077] transition-all duration-300">تواصل معنا</Link>
                     <Link to="/donate" className="text-lg block bg-[#ECECEC] text-[#940066] py-2 rounded-full text-center border border-[#940066] hover:bg-[#940066] hover:text-white transition-all">تبرع الآن</Link>
                     <Link to="/scholarship" className="text-lg block bg-[#940066] text-[#ECECEC] py-2 rounded-full text-center hover:bg-[#ECECEC] hover:text-[#940066] hover:border hover:border-[#940066] transition-all">طلب منحة</Link>
+
+                    {/* إظهار لوحة التحكم للمتبرعين فقط */}
+                    {userType === "donor" && (
+                        <Link to="/donor-dashboard" className="text-lg block hover:text-[#b00077] transition-all duration-300">لوحة المتبرعين</Link>
+                    )}
                 </div>
             )}
         </nav>

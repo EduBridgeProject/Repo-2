@@ -3,7 +3,6 @@ import Hero from "../components/Hero";
 import EducationSection from "../components/EducationSection";
 import StatsSection from "../components/StatsSection"; // استدعاء السيكشن الثالث
 import ContactSection from "../components/ContactSection";
-
 const HomePage = () => {
   return (
     <div className="bg-gray-100 min-h-screen">

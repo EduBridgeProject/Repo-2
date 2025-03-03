@@ -39,9 +39,9 @@ const EducationSection = () => {
             </p>
 
             <div className="mt-8 text-center lg:text-right">
-              <button className="border-2 border-[#940066] text-[#940066] hover:bg-[#940066] hover:text-white px-8 py-3 rounded-full text-lg transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">
-                تبرّع الآن 
-              </button>
+            <button className="border-2 border-[#940066] text-[#940066] hover:bg-[#940066] hover:text-white px-8 py-3 rounded-full text-lg transition-all duration-300 shadow-md hover:shadow-lg transform translate-x-[-120px]">
+    تبرّع الآن
+</button>
             </div>
           </div>
         </div>

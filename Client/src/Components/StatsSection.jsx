@@ -20,10 +20,10 @@ const StatsSection = () => {
               </div>
               <h3 className="text-5xl font-extrabold text-gray-900 flex items-center justify-center">
                 <span className="relative">
-                  <span>30</span>
+                  <span>12</span>
                 </span>
               </h3>
-              <p className="text-xl text-gray-600 font-medium">طلاب خريجين </p>
+              <p className="text-xl text-gray-600 font-medium">الشركاء والداعمين  </p>
             </div>
           </div>
           
@@ -50,11 +50,11 @@ const StatsSection = () => {
               </div>
               <h3 className="text-5xl font-extrabold text-gray-900 flex items-center justify-center">
                 <span className="relative">
-                  <span>68</span>
+                  <span>628</span>
                   <span className="absolute -top-2 -right-6 text-[#940066] text-3xl">+</span>
                 </span>
               </h3>
-              <p className="text-xl text-gray-600 font-medium">مشروع تعليمي تم دعمه</p>
+              <p className="text-xl text-gray-600 font-medium">زوارنا الكرام </p>
             </div>
           </div>
         </div>

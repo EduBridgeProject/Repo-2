@@ -12,6 +12,7 @@ const userRoutes = require("./routes/userRoutes");
 const contactMessagesRoutes = require("./routes/contactMessagesRoutes");
 const donorRoutes = require("./routes/donorRoutes");
 const beneficiaryRoutes = require("./routes/beneficiaryRoutes");
+const successStoryRoutes = require("./routes/successStoryRoutes");
 
 
 dotenv.config();

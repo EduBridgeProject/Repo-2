@@ -1,12 +1,38 @@
-const express = require("express");
-const { adminLogin } = require("../controllers/adminController");
-const authenticateAdmin = require("../middleware/authMiddleware");
+const jwt = require("jsonwebtoken");
 
-const router = express.Router();
+const authenticateUser = (req, res, next) => {
+  const token = req.cookies.token;
 
-router.post("/login", adminLogin);
-router.get("/dashboard", authenticateAdmin, (req, res) => {
-  res.json({ message: "Welcome to the admin dashboard", user: req.user });
-});
+  if (!token) {
+    return res.status(401).json({ message: "Access denied. No token provided." });
+  }
 
-module.exports = router;
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: "Invalid token" });
+  }
+};
+
+const authenticateAdmin = (req, res, next) => {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json({ message: "Access denied. No token provided." });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    if (decoded.role !== "admin") {
+      return res.status(403).json({ message: "Forbidden: Admin access only." });
+    }
+    req.user = decoded;
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: "Invalid token" });
+  }
+};
+
+module.exports = { authenticateUser, authenticateAdmin };

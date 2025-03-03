@@ -8,8 +8,9 @@ const {
   getAllBeneficiariesWithDeleted,
   deleteBeneficiary,
   restoreBeneficiary,
+  approveBeneficiary,
   getApprovedBeneficiaries,
-  getBeneficiaryById
+  getBeneficiaryById,
 } = require("../controllers/beneficiaryController");
 
 // إعداد `multer` لتخزين الملفات داخل مجلد `uploads/`
@@ -24,7 +25,10 @@ const storage = multer.diskStorage({
 
 // السماح فقط بملفات الصور و PDF
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype === "application/pdf" || file.mimetype.startsWith("image/")) {
+  if (
+    file.mimetype === "application/pdf" ||
+    file.mimetype.startsWith("image/")
+  ) {
     cb(null, true);
   } else {
     cb(new Error("فقط ملفات PDF أو الصور مسموحة"), false);
@@ -46,10 +50,14 @@ router.post("/beneficiary", upload.single("file"), async (req, res) => {
       filePath: req.file ? req.file.path : null,
     });
 
-    res.status(201).json({ message: "تم إرسال الطلب بنجاح", data: newBeneficiary });
+    res
+      .status(201)
+      .json({ message: "تم إرسال الطلب بنجاح", data: newBeneficiary });
   } catch (error) {
     console.error("Error creating beneficiary:", error);
-    res.status(500).json({ message: "خطأ داخلي في الخادم", error: error.message });
+    res
+      .status(500)
+      .json({ message: "خطأ داخلي في الخادم", error: error.message });
   }
 });
 
@@ -57,7 +65,7 @@ router.post("/beneficiary", upload.single("file"), async (req, res) => {
 router.get("/file/:id", getFile);
 
 // جلب جميع طلبات التبرع غير المحذوفة
-router.get("/api/beneficiaries", getAllBeneficiaries);
+router.get("/beneficiaries", getAllBeneficiaries);
 
 // جلب جميع طلبات التبرع (بما في ذلك المحذوفة)
 router.get("/api/beneficiaries/all", getAllBeneficiariesWithDeleted);
@@ -67,6 +75,8 @@ router.delete("/api/beneficiaries/:id", deleteBeneficiary);
 
 // استعادة طلب تبرع محذوف
 router.post("/api/beneficiaries/restore/:id", restoreBeneficiary);
+
+router.put("/beneficiaries/:id/approve", approveBeneficiary);
 
 // جلب الطلبات المعتمدة
 router.get("/approved", getApprovedBeneficiaries);

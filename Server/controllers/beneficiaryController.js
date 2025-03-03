@@ -1,97 +1,5 @@
-// const { Beneficiary, User } = require("../models");
-
-// // إنشاء طلب تبرع جديد
-// exports.createBeneficiary = async (req, res) => {
-//   try {
-//     const newBeneficiary = await Beneficiary.create(req.body);
-//     res.status(201).json(newBeneficiary);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-// // جلب جميع طلبات التبرع غير المحذوفة
-// exports.getAllBeneficiaries = async (req, res) => {
-//   try {
-//     const beneficiaries = await Beneficiary.findAll({
-//       where: { isDeleted: false }, 
-//       include: [{ model: User, attributes: ["firstName", "lastName", "email"] }],
-//     });
-//     res.json(beneficiaries);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-// // جلب جميع طلبات التبرع (بما في ذلك المحذوفة)
-// exports.getAllBeneficiariesWithDeleted = async (req, res) => {
-//   try {
-//     const beneficiaries = await Beneficiary.findAll({
-//       include: [{ model: User, attributes: ["firstName", "lastName", "email"] }],
-//     });
-//     res.json(beneficiaries);
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-// // حذف طلب تبرع (Soft Delete)
-// exports.deleteBeneficiary = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const beneficiary = await Beneficiary.findByPk(id);
-
-//     if (!beneficiary) {
-//       return res.status(404).json({ error: "طلب التبرع غير موجود" });
-//     }
-
-//     beneficiary.isDeleted = true;
-//     await beneficiary.save();
-
-//     res.json({ message: "تم حذف طلب التبرع بنجاح (Soft Delete)" });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-// // استعادة طلب تبرع محذوف
-// exports.restoreBeneficiary = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const beneficiary = await Beneficiary.findByPk(id);
-
-//     if (!beneficiary) {
-//       return res.status(404).json({ error: "طلب التبرع غير موجود" });
-//     }
-
-//     beneficiary.isDeleted = false;
-//     await beneficiary.save();
-
-//     res.json({ message: "تم استعادة طلب التبرع بنجاح", beneficiary });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const { Beneficiary, User } = require("../models");
 const path = require("path");
-const db = require("../models");
-
-console.log("Loaded Models:", Object.keys(db)); 
-
 
 exports.uploadFile = async (req, res) => {
   try {
@@ -100,7 +8,7 @@ exports.uploadFile = async (req, res) => {
       console.log("No file uploaded", req.file); // تحقق من وجود الملف
       return res.status(400).json({ message: "يرجى رفع ملف" });
     }
-    
+
     const beneficiary = await Beneficiary.create({
       userId,
       filePath: req.file.path,
@@ -123,7 +31,9 @@ exports.getFile = async (req, res) => {
 
     res.sendFile(path.resolve(beneficiary.filePath));
   } catch (error) {
-    res.status(500).json({ message: "خطأ في تحميل الملف", error: error.message });
+    res
+      .status(500)
+      .json({ message: "خطأ في تحميل الملف", error: error.message });
   }
 };
 
@@ -156,7 +66,9 @@ exports.getAllBeneficiaries = async (req, res) => {
   try {
     const beneficiaries = await Beneficiary.findAll({
       where: { isDeleted: false },
-      include: [{ model: User, attributes: ["firstName", "lastName", "email"] }],
+      include: [
+        { model: User, attributes: ["firstName", "lastName", "email"] },
+      ],
     });
     res.json(beneficiaries);
   } catch (error) {
@@ -167,7 +79,9 @@ exports.getAllBeneficiaries = async (req, res) => {
 exports.getAllBeneficiariesWithDeleted = async (req, res) => {
   try {
     const beneficiaries = await Beneficiary.findAll({
-      include: [{ model: User, attributes: ["firstName", "lastName", "email"] }],
+      include: [
+        { model: User, attributes: ["firstName", "lastName", "email"] },
+      ],
     });
     res.json(beneficiaries);
   } catch (error) {
@@ -218,7 +132,13 @@ exports.getApprovedBeneficiaries = async (req, res) => {
         approvedByAdmin: true, // فقط الطلبات المعتمدة
         isDeleted: false, // فقط الطلبات غير المحذوفة
       },
-      attributes: ["id", "universityName", "brothers", "amount", "needsDescription"], // تحديد الحقول المطلوبة
+      attributes: [
+        "id",
+        "universityName",
+        "brothers",
+        "amount",
+        "needsDescription",
+      ], // تحديد الحقول المطلوبة
     });
 
     res.status(200).json(beneficiaries); // إرسال البيانات كـ JSON
@@ -235,7 +155,13 @@ exports.getBeneficiaryById = async (req, res) => {
 
     const beneficiary = await Beneficiary.findOne({
       where: { id, isDeleted: false },
-      attributes: ["id", "universityName", "universityNo","amount", "needsDescription"],
+      attributes: [
+        "id",
+        "universityName",
+        "universityNo",
+        "amount",
+        "needsDescription",
+      ],
     });
 
     if (!beneficiary) {
@@ -248,6 +174,36 @@ exports.getBeneficiaryById = async (req, res) => {
     res.json(beneficiary);
   } catch (error) {
     console.error("Error retrieving beneficiary:", error);
-    res.status(500).json({ message: "Internal server error", error: error.message });
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+};
+
+exports.approveBeneficiary = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the beneficiary by ID
+    const beneficiary = await Beneficiary.findByPk(id);
+
+    // Check if the beneficiary exists
+    if (!beneficiary) {
+      return res.status(404).json({ message: "Beneficiary not found" });
+    }
+
+    // Update the approvedByAdmin field to true
+    beneficiary.approvedByAdmin = true;
+    await beneficiary.save();
+
+    // Send a success response
+    res
+      .status(200)
+      .json({ message: "Beneficiary approved successfully", beneficiary });
+  } catch (error) {
+    // Handle any errors
+    res
+      .status(500)
+      .json({ message: "Error approving beneficiary", error: error.message });
   }
 };

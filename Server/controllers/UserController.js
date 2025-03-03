@@ -2,13 +2,20 @@ const { User, Sequelize } = require("../models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
-
 require("dotenv").config();
 
-// إنشاء حساب مستخدم جديد مع تشفير كلمة المرور وإنشاء JWT Token
 const createUser = async (req, res) => {
   try {
-    const { firstName, lastName, email, password, role, status, phoneNumber, address } = req.body;
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      role,
+      status,
+      phoneNumber,
+      address,
+    } = req.body;
 
     // التحقق من وجود البريد الإلكتروني مسبقًا
     const existingUser = await User.findOne({ where: { email } });
@@ -45,7 +52,9 @@ const createUser = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 أيام
     });
 
-    return res.status(201).json({ message: "User created successfully", user: newUser, token });
+    return res
+      .status(201)
+      .json({ message: "User created successfully", user: newUser, token });
   } catch (error) {
     console.error("Error creating user:", error);
     return res.status(500).json({ message: "Internal server error" });
@@ -95,7 +104,6 @@ const logoutUser = (req, res) => {
   res.clearCookie("token");
   return res.status(200).json({ message: "Logged out successfully" });
 };
-
 
 const getUsersExcludingAdmin = async (req, res) => {
   try {

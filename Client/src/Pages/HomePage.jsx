@@ -2,6 +2,7 @@ import React from "react";
 import Hero from "../components/Hero";
 import EducationSection from "../components/EducationSection";
 import StatsSection from "../components/StatsSection"; // استدعاء السيكشن الثالث
+import ContactSection from "../components/ContactSection";
 
 const HomePage = () => {
   return (
@@ -15,6 +16,7 @@ const HomePage = () => {
       {/* ✅ السيكشن الثالث (الإحصائيات والمشاركة المجتمعية) */}
       <StatsSection />
 
+      <ContactSection />
       {/* ✅ باقي الصفحة */}
       <div className="container mx-auto py-16 px-6 text-center">
       </div>

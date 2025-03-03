@@ -13,13 +13,12 @@ const Footer = () => {
       
       <div className="container mx-auto px-6">
         {/* Logo and mission */}
-        <div className="flex flex-col items-center mb-12 text-center">
-          <h2 className="text-3xl font-bold mb-4">جمعية المنح الدراسية للنساء الأردنيات 🎓</h2>
-          <p className="max-w-2xl text-lg opacity-90 leading-relaxed">
-            نؤمن بأن التعليم هو الطريق نحو مستقبل أفضل. نسعى لتمكين المرأة الأردنية من خلال توفير فرص تعليمية متساوية للجميع.
-          </p>
-        </div>
-
+       <div className="flex flex-col items-center mb-12 text-center">
+  <h2 className="text-3xl font-bold mb-4">موقع خيري لدعم الطلاب الجامعيين  🎓</h2>
+  <p className="max-w-2xl text-lg opacity-90 leading-relaxed">
+    نؤمن بأن التعليم هو حق لكل طالب، ونحن نسعى لدعم الطلاب الجامعيين الغير مقتدرين من خلال توفير فرص تعليمية متساوية لهم، لنساعدهم في بناء مستقبل أفضل.
+  </p>
+</div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 justify-center">
           {/* روابط سريعة */}
           <div className="flex flex-col items-center sm:items-start">

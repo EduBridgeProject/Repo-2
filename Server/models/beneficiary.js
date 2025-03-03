@@ -37,10 +37,7 @@ module.exports = (sequelize, DataTypes) => {
   class Beneficiary extends Model {
     static associate(models) {
       this.belongsTo(models.User, { foreignKey: "userId" });
-      this.belongsToMany(models.Program, {
-        through: "BeneficiaryPrograms",
-        foreignKey: "beneficiaryId",
-      });
+      
     }
   }
   Beneficiary.init(
@@ -85,6 +82,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Beneficiary",
+      tableName: "Beneficiaries",
     }
   );
   return Beneficiary;

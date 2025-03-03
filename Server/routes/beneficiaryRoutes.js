@@ -8,7 +8,8 @@ const {
   getAllBeneficiariesWithDeleted,
   deleteBeneficiary,
   restoreBeneficiary,
-  getApprovedBeneficiaries
+  getApprovedBeneficiaries,
+  getBeneficiaryById
 } = require("../controllers/beneficiaryController");
 
 // إعداد `multer` لتخزين الملفات داخل مجلد `uploads/`
@@ -69,5 +70,5 @@ router.post("/api/beneficiaries/restore/:id", restoreBeneficiary);
 
 // جلب الطلبات المعتمدة
 router.get("/approved", getApprovedBeneficiaries);
-
+router.get("/api/beneficiaries/:id", getBeneficiaryById);
 module.exports = router;

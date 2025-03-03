@@ -88,6 +88,10 @@
 
 const { Beneficiary, User } = require("../models");
 const path = require("path");
+const db = require("../models");
+
+console.log("Loaded Models:", Object.keys(db)); 
+
 
 exports.uploadFile = async (req, res) => {
   try {
@@ -220,5 +224,30 @@ exports.getApprovedBeneficiaries = async (req, res) => {
     res.status(200).json(beneficiaries); // إرسال البيانات كـ JSON
   } catch (error) {
     res.status(500).json({ error: error.message }); // إرسال خطأ في حالة فشل الاستعلام
+  }
+};
+
+// ✅ إضافة دالة getBeneficiaryById
+exports.getBeneficiaryById = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id, 10);
+    console.log("Requested Beneficiary ID:", id);
+
+    const beneficiary = await Beneficiary.findOne({
+      where: { id, isDeleted: false },
+      attributes: ["id", "universityName", "universityNo", "needsDescription"],
+    });
+
+    if (!beneficiary) {
+      console.log("Beneficiary not found");
+      return res.status(404).json({ message: "Beneficiary not found" });
+    }
+
+    console.log("Beneficiary Found:", beneficiary.toJSON());
+
+    res.json(beneficiary);
+  } catch (error) {
+    console.error("Error retrieving beneficiary:", error);
+    res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };

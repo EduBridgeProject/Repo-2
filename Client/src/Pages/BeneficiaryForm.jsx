@@ -216,7 +216,7 @@ const BeneficiaryForm = ({ editingBeneficiary, existingData }) => {
         await axios.put(`http://localhost:4000/api/beneficiaries/${existingData.id}`, formDataToSend);
         setMessage("تم تحديث الطلب بنجاح!");
       } else {
-        await axios.post("http://localhost:4000/api/beneficiaries/beneficiary", formDataToSend);
+        await axios.post("http://localhost:4000/api/case/beneficiary", formDataToSend);
         setMessage("تم إرسال الطلب بنجاح!");
       }
       setMessageType("success");

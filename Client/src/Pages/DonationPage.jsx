@@ -11,7 +11,7 @@ const ApprovedBeneficiaries = () => {
     const fetchApprovedBeneficiaries = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/beneficiaries/approved"
+          "http://localhost:4000/api/case/approved"
         );
         setBeneficiaries(response.data); // تعيين البيانات المستلمة
         setLoading(false);
@@ -58,7 +58,7 @@ const ApprovedBeneficiaries = () => {
               وصف الحاجة: <span className="font-bold">{beneficiary.needsDescription}</span>
             </p> */}
             <Link
-              to={`/beneficiary/${beneficiary.id}`}
+              to={`/Detailspage/${beneficiary.id}`}
               className="bg-[#940066] text-white px-4 py-2 rounded-md hover:bg-[#671F79] transition duration-200 inline-block"
             >
               عرض التفاصيل

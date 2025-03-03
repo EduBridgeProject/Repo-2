@@ -2,47 +2,45 @@ import { useState } from "react";
 import axios from "axios";
 
 function Contact() {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
-  const [status, setStatus] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    description: "",
+  });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-
-
-  
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+
     const messageData = {
       name: formData.name,
       email: formData.email,
-      message: formData.message,
+      description: formData.description, // Updated to use 'description'
     };
-  
+
     try {
-      const response = await axios.post('http://localhost:4000/api/contact-messages', messageData);
-      
+      const response = await axios.post(
+        "http://localhost:4000/api/add-contact",
+        messageData
+      );
+
       // عرض تنبيه عند نجاح الإرسال
-      alert('تم إرسال الرسالة بنجاح!');
-  
+      alert("تم إرسال الرسالة بنجاح!");
+
       // تفريغ الفورم
-      setFormData({ name: '', email: '', message: '' });
-  
-      console.log('رسالة تم إرسالها بنجاح:', response.data);
+      setFormData({ name: "", email: "", description: "" });
+
+      console.log("رسالة تم إرسالها بنجاح:", response.data);
     } catch (error) {
-    alert('خطأ أثناء إرسال الطلب:', error);
+      alert("خطأ أثناء إرسال الطلب:", error);
       if (error.response) {
-        console.error('تفاصيل الخطأ:', error.response.data);
+        console.error("تفاصيل الخطأ:", error.response.data);
       }
     }
   };
-  
-
-
-
-
 
   return (
     <>
@@ -70,9 +68,7 @@ function Contact() {
       <div
         className="flex flex-col items-center min-h-screen p-8 rtl"
         style={{
-          //  backgroundImage: `url('https://i.pinimg.com/736x/65/4d/f5/654df57051e8a9a6e1a939d152c51380.jpg')`,
           backgroundImage: `url('https://i.pinimg.com/736x/ba/84/08/ba8408b6d85d00cf3b1642a2ec268bba.jpg')`,
-
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
@@ -115,56 +111,64 @@ function Contact() {
               نموذج التواصل
             </h2>
             <form onSubmit={handleSubmit} className="space-y-5 text-right">
-  <div>
-    <label className="block text-gray-700 mb-2 font-medium" htmlFor="name">
-      الاسم
-    </label>
-    <input
-      type="text"
-      id="name"
-      name="name"  // ✅ أضف `name`
-      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-[#940066] transition duration-300 shadow-sm text-right"
-      placeholder="أدخل اسمك"
-      onChange={handleChange}
-      required
-    />
-  </div>
-  <div>
-    <label className="block text-gray-700 mb-2 font-medium" htmlFor="email">
-      البريد الإلكتروني
-    </label>
-    <input
-      type="email"
-      id="email"
-      name="email"  // ✅ أضف `name`
-      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-[#940066] transition duration-300 shadow-sm text-right"
-      placeholder="أدخل بريدك الإلكتروني"
-      onChange={handleChange}
-      required
-    />
-  </div>
-  <div>
-    <label className="block text-gray-700 mb-2 font-medium" htmlFor="message">
-      رسالتك
-    </label>
-    <textarea
-      id="message"
-      name="message"  // ✅ أضف `name`
-      className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-[#940066] transition duration-300 shadow-sm text-right"
-      rows="4"
-      placeholder="اكتب رسالتك هنا"
-      onChange={handleChange} 
-      required
-    />
-  </div>
-  <button
-    type="submit"
-    className="w-full bg-[#940066] text-white py-3 rounded-lg hover:bg-[#7a004d] transform hover:scale-105 transition duration-300 shadow-lg"
-  >
-    إرسال الرسالة 📩
-  </button>
-</form>
-
+              <div>
+                <label
+                  className="block text-gray-700 mb-2 font-medium"
+                  htmlFor="name"
+                >
+                  الاسم
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-[#940066] transition duration-300 shadow-sm text-right"
+                  placeholder="أدخل اسمك"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  className="block text-gray-700 mb-2 font-medium"
+                  htmlFor="email"
+                >
+                  البريد الإلكتروني
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-[#940066] transition duration-300 shadow-sm text-right"
+                  placeholder="أدخل بريدك الإلكتروني"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  className="block text-gray-700 mb-2 font-medium"
+                  htmlFor="description"
+                >
+                  رسالتك
+                </label>
+                <textarea
+                  id="description"
+                  name="description" // Updated to use 'description'
+                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-[#940066] transition duration-300 shadow-sm text-right"
+                  rows="4"
+                  placeholder="اكتب رسالتك هنا"
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-[#940066] text-white py-3 rounded-lg hover:bg-[#7a004d] transform hover:scale-105 transition duration-300 shadow-lg"
+              >
+                إرسال الرسالة 📩
+              </button>
+            </form>
           </div>
         </div>
       </div>

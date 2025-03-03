@@ -7,8 +7,40 @@ import axios from "axios";
 
 
 
+const donations = [
+    {
+      id: 1,
+      amount: "$25.00",
+      form: "نموذج التبرع",
+      date: "19 مارس 2021 12:27 م",
+      status: "مكتمل",
+    },
+    {
+      id: 2,
+      amount: "$200.00",
+      form: "نموذج التبرع",
+      date: "1 يناير 2021 6:53 ص",
+      status: "مكتمل",
+    },
+    {
+      id: 3,
+      amount: "$200.00",
+      form: "نموذج التبرع",
+      date: "1 يناير 2021 3:45 ص",
+      status: "مكتمل",
+    },
+    {
+      id: 4,
+      amount: "$200.00",
+      form: "نموذج التبرع",
+      date: "1 يناير 2021 5:29 ص",
+      status: "مكتمل",
+    },
+  ];
 
-  // ${donorId}
+
+
+
 
 
 
@@ -18,27 +50,20 @@ import axios from "axios";
 
 function DonateDashboard(donorId ) {
 
-
-
-
   const [donations, setDonations] = useState([]);
   const [totalDonations, setTotalDonations] = useState(0);
   const [averageDonation, setAverageDonation] = useState(0);
-
-  
 // ربط سيكشن  1+2
 useEffect(() => {
   const fetchDashboardData = async () => {
     try {
-  // جلب قائمة التبرعات
-  const donationsResponse = await axios.get(`http://localhost:4000/api/donors/donations/1`);
-  // جلب إجمالي التبرعات
-  const totalResponse = await axios.get(`http://localhost:4000/api/donors/donations/total/1`)
-  // جلب متوسط التبرعات
-  const averageResponse = await axios.get(`http://localhost:4000/api/donors/donations/average/1`)
-  console.log("Donations Data:", donationsResponse.data);
-  console.log("Total Donations:", totalResponse.data);
-  console.log("Average Donation:", averageResponse.data);
+      // جلب قائمة التبرعات
+      const donationsResponse = await axios.get(`http://localhost:4000/api/donations/${donorId}`);
+      // جلب إجمالي التبرعات
+      const totalResponse = await axios.get(`http://localhost:4000/api/donations/total/${donorId}`);
+      // جلب متوسط التبرعات
+      const averageResponse = await axios.get(`http://localhost:4000/api/donations/average/${donorId}`);
+
       setDonations(donationsResponse.data.userDonations);
       setTotalDonations(totalResponse.data.userTotalDonations);
       setAverageDonation(averageResponse.data.userAverageDonation);
@@ -50,75 +75,19 @@ useEffect(() => {
   fetchDashboardData();
 }, [donorId]);
 
+
+
+
 // ربط سيكشن  1+2
-
-
-// اليوزير بروفايل 
- // حالة تخزين بيانات الملف الشخصي
- const [profile, setProfile] = useState({
-  name: "",
-  email: "",
-  password: "",
-});
-
-// useEffect(() => {
-//   const fetchProfile = async () => {
-//     try {
-//       // افترضنا أن هناك endpoint لجلب بيانات المتبرع، يمكنك تعديله حسب الحاجة
-//       const response = await axios.get(`http://localhost:4000/api/donors/profile/1`);
-//       // تحديث الحالة بناءً على البيانات المسترجعة (نترك حقل كلمة المرور فارغاً)
-//       console.log("Profile Data:", response.data); // تحقق من البيانات المسترجعة
-
-//       setProfile({
-//         name: response.data.firstName,
-//         email: response.data.email,
-//         password: "",
-//       });
-//     } catch (error) {
-//       console.error("Error fetching donor profile:", error);
-//     }
-//   };
-
-//   fetchProfile();
-// }, [donorId]);
-
-// دالة لتحديث الحالة عند تغيير الإدخالات
-const handleChange = (e) => {
-  setProfile({
-    ...profile,
-    [e.target.name]: e.target.value,
-  });
-};
-
-// دالة إرسال التعديلات إلى الـ API
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await axios.put(
-      `http://localhost:4000/api/donors/update-profile/1`,
-      {
-        name: profile.name,
-        email: profile.email,
-        password: profile.password,
-      }
-    );
-    alert("تم تحديث البيانات بنجاح!");
-    setProfile({ ...profile, password: "" });
-  } catch (error) {
-    console.error("Error updating profile:", error);
-    alert("حدث خطأ أثناء تحديث البيانات");
-  }
-};
-//  اليوزير بروفايل 
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [showWelcome, setShowWelcome] = useState(false);
 
 
-  // useEffect(() => {
-  //   setShowWelcome(true);
-  //   const timer = setTimeout(() => setShowWelcome(false), 3000); // عرض الرسالة لمدة 3 ثواني
-  //   return () => clearTimeout(timer);
-  // }, []);
+  useEffect(() => {
+    setShowWelcome(true);
+    const timer = setTimeout(() => setShowWelcome(false), 3000); // عرض الرسالة لمدة 3 ثواني
+    return () => clearTimeout(timer);
+  }, []);
 
 
   const [showModal, setShowModal] = useState(false);
@@ -152,7 +121,22 @@ const handleSubmit = async (e) => {
                 <span className="hidden md:inline">تبرعاتي </span>
               </Link>
             </li>
+            {/* <li className="flex items-center cursor-pointer hover:bg-[#7a004f] p-2 rounded-lg">
+                        <Link to="/donation-methods" className="flex items-center space-x-2">
+                            <FaWallet size={20} />
+                            <span className="hidden md:inline">طرق التبرع</span>
+                        </Link>
+                    </li> */}
 
+            {/* <li className="flex items-center cursor-pointer hover:bg-[#7a004f] p-2 rounded-lg">
+              <Link
+                to="/donation-history"
+                className="flex items-center space-x-2"
+              >
+                <FiBell size={20} />
+                <span className="hidden md:inline">تاريخ التبرع</span>
+              </Link>
+            </li> */}
             <li className="flex items-center cursor-pointer hover:bg-[#7a004f] p-2 rounded-lg">
               <Link
                 to="/recurring-donations"
@@ -187,40 +171,21 @@ const handleSubmit = async (e) => {
               <FiMenu size={24} />
             </button>
           </header>
-          {/* {showWelcome && (
+
+          {/* Welcome Message */}
+          {showWelcome && (
             <div className="mb-6 p-4 bg-[#f0f8ff] border border-[#007acc] rounded-lg text-right">
               <h2 className="text-lg font-bold text-[#007acc]">
-              مرحبًا {profile.name} في لوحة تحكم المتبرع!
+                مرحبًا بك في لوحة تحكم المتبرع!
               </h2>
               <p className="text-gray-700">
                 نحن هنا لدعمك في رحلة التبرع الخاصة بك.
               </p>
             </div>
-          )} */}
-
-
-          {/* Welcome Message */}
-          {/* <div className="mb-6 p-8 bg-gradient-to-l  from-[#940066]  to-[[#940066] shadow-2xl rounded-lg text-right transform hover:scale-105 transition duration-500 ease-in-out">
-  <h2 className="text-3xl font-extrabold text-white tracking-wider drop-shadow-lg">
-    أهلاً وسهلاً بك، {profile.name}، في لوحة تحكم المتبرع!
-  </h2>
-  <p className="mt-4 text-xl text-white drop-shadow">
-    نحن هنا لدعمك في رحلة التبرع الخاصة بك، لنمنحك تجربة فريدة ومميزة.
-  </p>
-</div> */}
-
-<div className="mb-6 p-6 bg-white border-4 border-[#940066] shadow-1xl rounded-lg text-right transform hover:scale-105 transition duration-500 ease-in-out">
-  <h2 className="text-2xl font-extrabold text-[#940066] tracking-wider drop-shadow-lg">
-    أهلاً وسهلاً بك، {profile.name}، في لوحة تحكم المتبرع!
-  </h2>
-  <p className="mt-2 text-xl text-[#940066] drop-shadow">
-    نحن هنا لدعمك في رحلة التبرع الخاصة بك، لنمنحك تجربة فريدة ومميزة.
-  </p>
-</div>
-
+          )}
 
        {/* Statistics Section */}
-       <section className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-4 text-right mb-6">
+       <section className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 text-right mb-6">
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-lg font-bold">عدد التبرعات</h2>
           <p className="text-2xl">{donations.length}</p>
@@ -342,60 +307,77 @@ const handleSubmit = async (e) => {
 
           {/* Profile Information */}
           <section className="bg-white p-6 rounded-lg shadow text-right">
-      <h2 className="text-2xl font-bold mb-4 text-[#940066]">
-        معلومات الملف الشخصي
-      </h2>
-      <form onSubmit={handleSubmit}>
-        {/* حقل الاسم */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-2 text-gray-700">
-            الاسم الأول
-          </label>
-          <input
-            type="text"
-            name="name"
-            value={profile.name}
-            onChange={handleChange}
-            placeholder="أدخل اسمك الأول"
-            className="border border-gray-300 rounded-md p-2 w-full focus:border-[#940066] focus:ring-1 focus:ring-[#940066]"
-          />
-        </div>
-        {/* حقل البريد الإلكتروني */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-2 text-gray-700">
-            البريد الإلكتروني الأساسي
-          </label>
-          <input
-            type="email"
-            name="email"
-            value={profile.email}
-            onChange={handleChange}
-            placeholder="البريد الإلكتروني"
-            className="border border-gray-300 rounded-md p-2 w-full focus:border-[#940066] focus:ring-1 focus:ring-[#940066]"
-          />
-        </div>
-        {/* حقل كلمة المرور */}
-        <div className="mb-4">
-          <label className="block text-sm font-medium mb-2 text-gray-700">
-            كلمة المرور
-          </label>
-          <input
-            type="password"
-            name="password"
-            value={profile.password}
-            onChange={handleChange}
-            placeholder="أدخل كلمة المرور الجديدة"
-            className="border border-gray-300 rounded-md p-2 w-full focus:border-[#940066] focus:ring-1 focus:ring-[#940066]"
-          />
-        </div>
-        <button
-          type="submit"
-          className="bg-[#940066] text-white font-bold py-2 px-4 rounded transition duration-300 hover:bg-[#7a0050]"
-        >
-          تحديث البيانات
-        </button>
-      </form>
-    </section>
+            <h2 className="text-2xl font-bold mb-4 text-[#940066]">
+              معلومات الملف الشخصي
+            </h2>
+
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-2 text-gray-700">
+                الاسم الأول
+              </label>
+              <input
+                type="text"
+                placeholder="أدخل اسمك الأول"
+                className="border border-gray-300 rounded-md p-2 w-full focus:border-[#940066] focus:ring-1 focus:ring-[#940066]"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium mb-2 text-gray-700">
+                البريد الإلكتروني الأساسي
+              </label>
+              <input
+                type="email"
+                placeholder="البريد الإلكتروني"
+                className="border border-gray-300 rounded-md p-2 w-full focus:border-[#940066] focus:ring-1 focus:ring-[#940066]"
+              />
+            </div>
+            <div className="mb-4">
+              <button className="bg-[#940066] text-white font-bold py-2 px-4 rounded transition duration-300 hover:bg-[#7a0050]">
+                إضافة بريد إلكتروني
+              </button>
+            </div>
+            <div className="mb-4 bg-white p-4 rounded-lg shadow">
+              <p className="font-medium text-gray-700">
+                يبدو أنك لم تقم بإعداد عنوان بعد!
+              </p>
+              <button className="bg-[#940066] text-white font-bold py-2 px-4 rounded mt-2 transition duration-300 hover:bg-[#7a0050]">
+                إضافة عنوان
+              </button>
+            </div>
+            <div className="mb-4 bg-white p-4 rounded-lg shadow">
+              <p className="font-medium text-gray-700">التبرع بشكل مجهول</p>
+              <div className="flex items-center mb-2">
+                <input
+                  type="radio"
+                  id="public"
+                  name="donation"
+                  value="public"
+                  className="mr-2 focus:ring-[#940066]"
+                />
+                <label
+                  htmlFor="public"
+                  className="text-gray-700 cursor-pointer"
+                >
+                  عام - يمكن للجميع رؤية المعلومات
+                </label>
+              </div>
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  id="private"
+                  name="donation"
+                  value="private"
+                  className="mr-2 focus:ring-[#940066]"
+                />
+                <label
+                  htmlFor="private"
+                  className="text-gray-700 cursor-pointer"
+                >
+                  خاص - يمكن للمسؤولين فقط رؤية المعلومات
+                </label>
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </>

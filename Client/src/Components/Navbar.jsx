@@ -31,7 +31,7 @@ const Navbar = () => {
                     <Link to="/about" className="text-lg font-medium text-[#940066] hover:text-[#b00077] transition-all duration-300">من نحن</Link>
                     <Link to="/SuccessStoriesCards" className="text-lg font-medium text-[#940066] hover:text-[#b00077] transition-all duration-300">قصص نجاح</Link>
                     <Link to="/contact" className="text-lg font-medium text-[#940066] hover:text-[#b00077] transition-all duration-300">تواصل معنا</Link>
-                    <Link to="/login" className="text-lg font-medium text-[#940066] hover:text-[#b00077] transition-all duration-300">تسجيل الدخول</Link>
+                    <Link to="/signin" className="text-lg font-medium text-[#940066] hover:text-[#b00077] transition-all duration-300">تسجيل الدخول</Link>
 
                     <Link
                         to="/donate"
@@ -40,7 +40,7 @@ const Navbar = () => {
                     </Link>
 
                     <Link
-                        to="/scholarship"
+                        to="/BeneficiaryForm"
                         className="text-lg font-medium bg-[#940066] text-[#ECECEC] px-4 py-2 rounded-full shadow-md transition-all hover:bg-[#ECECEC] hover:text-[#940066] hover:border hover:border-[#940066]">
                         طلب منحة
                     </Link>

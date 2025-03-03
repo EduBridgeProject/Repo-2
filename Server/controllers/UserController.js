@@ -1,7 +1,101 @@
 const { User, Sequelize } = require("../models");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 
 require("dotenv").config();
+
+// إنشاء حساب مستخدم جديد مع تشفير كلمة المرور وإنشاء JWT Token
+const createUser = async (req, res) => {
+  try {
+    const { firstName, lastName, email, password, role, status, phoneNumber, address } = req.body;
+
+    // التحقق من وجود البريد الإلكتروني مسبقًا
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+
+    // تشفير كلمة المرور
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // إنشاء مستخدم جديد
+    const newUser = await User.create({
+      firstName,
+      lastName,
+      email,
+      password: hashedPassword,
+      role,
+      status,
+      phoneNumber,
+      address,
+    });
+
+    // إنشاء JWT Token
+    const token = jwt.sign(
+      { id: newUser.id, email: newUser.email, role: newUser.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" } // صلاحية التوكن 7 أيام
+    );
+
+    // تخزين التوكن في الكوكيز
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // أمان أكثر في الإنتاج
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 أيام
+    });
+
+    return res.status(201).json({ message: "User created successfully", user: newUser, token });
+  } catch (error) {
+    console.error("Error creating user:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// تسجيل الدخول وإنشاء JWT Token وتخزينه في الكوكيز
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // التحقق من وجود المستخدم
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // مقارنة كلمة المرور المشفرة
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    // إنشاء JWT Token
+    const token = jwt.sign(
+      { id: user.id, email: user.email, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    // تخزين التوكن في الكوكيز
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    return res.status(200).json({ message: "Login successful", token });
+  } catch (error) {
+    console.error("Error logging in:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// تسجيل خروج المستخدم عن طريق حذف التوكن من الكوكيز
+const logoutUser = (req, res) => {
+  res.clearCookie("token");
+  return res.status(200).json({ message: "Logged out successfully" });
+};
+
 
 const getUsersExcludingAdmin = async (req, res) => {
   try {
@@ -97,5 +191,8 @@ const getUserCount = async (req, res) => {
 module.exports = {
   getUsersExcludingAdmin,
   updateUserStatus,
+  loginUser,
+  logoutUser,
   getUserCount,
+  createUser,
 };

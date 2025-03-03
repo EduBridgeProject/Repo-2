@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import HomePage from "./Pages/HomePage";
 import AboutUs from "./Pages/AboutUs";
 import ContactUS from "./Pages/ContactUS";
@@ -16,11 +16,13 @@ import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import ScholarshipTerms from "./Pages/ScholarshipTerms";
 
-function App() {
-  return (
-    <Router>
-      <Navbar />
+function Layout() {
+  const location = useLocation();
+  const hideNavbarFooterPaths = ["/signin", "/signUp", "/dashboard/admin"]; // الصفحات التي نريد إخفاء الـ Navbar والـ Footer فيها
 
+  return (
+    <>
+      {!hideNavbarFooterPaths.includes(location.pathname) && <Navbar />}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutUs />} />
@@ -37,13 +39,20 @@ function App() {
         <Route path="/SuccessStoriesCards" element={<SuccessStory />} />
         <Route path="/Scholarshipterms" element={<ScholarshipTerms />} />
       </Routes>
-      <Footer />
+      {!hideNavbarFooterPaths.includes(location.pathname) && <Footer />}
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Layout />
     </Router>
   );
 }
 
 export default App;
-
 // import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 // import Navbar from "./components/Navbar";
 // import Footer from "./components/Footer";

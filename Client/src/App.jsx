@@ -11,17 +11,15 @@ import AdminDashboard from "./Pages/AdminDashboard";
 import BeneficiaryForm from "./Pages/BeneficiaryForm";
 import UserProfile from "./Pages/UserProfile";
 import SuccessStory from "./Pages/SuccessStoriesCards";
-import DetailsPage from "./Pages/DetailsPage" 
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import DetailsPage from "./Pages/DetailsPage";
+import Navbar from "./Components/Navbar";
+import Footer from "./Components/Footer";
 import ScholarshipTerms from "./Pages/ScholarshipTerms";
 
 function App() {
   return (
-  
     <Router>
-
-     <Navbar />
+      <Navbar />
 
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -38,17 +36,13 @@ function App() {
         <Route path="/Detailspage/:id" element={<DetailsPage />} />
         <Route path="/SuccessStoriesCards" element={<SuccessStory />} />
         <Route path="/Scholarshipterms" element={<ScholarshipTerms />} />
-        </Routes>
+      </Routes>
       <Footer />
-
     </Router>
   );
 }
 
-
 export default App;
-
-
 
 // import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 // import Navbar from "./components/Navbar";

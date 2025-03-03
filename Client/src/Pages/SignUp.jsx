@@ -8,7 +8,7 @@ const Register = () => {
     lastName: "",
     email: "",
     password: "",
-    role: "user",
+    role: "donor",
     status: "pending",
     phoneNumber: "",
     address: "",

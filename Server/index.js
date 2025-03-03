@@ -12,6 +12,7 @@ const userRoutes = require("./routes/userRoutes");
 const contactMessagesRoutes = require("./routes/contactMessagesRoutes");
 const donorRoutes = require("./routes/donorRoutes");
 const beneficiaryRoutes = require("./routes/beneficiaryRoutes");
+const donatioinRoutes = require("./routes/donationRoutes")
 
 
 dotenv.config();
@@ -33,6 +34,7 @@ app.use("/api", userRoutes);
 app.use("/api", contactMessagesRoutes);
 app.use("/api/donors", donorRoutes);
 app.use("/api/case", beneficiaryRoutes);
+app.use("/api", donatioinRoutes);
 
 
 
